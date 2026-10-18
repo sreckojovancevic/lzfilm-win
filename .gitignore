@@ -1,0 +1,9 @@
+bin/
+obj/
+artifacts/
+build/
+.vs/
+*.user
+*.suo
+native/*.dll
+TestResults/

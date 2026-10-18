@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\LzFilm.Core\LzFilm.Core.csproj" />
+  </ItemGroup>
+
+  <!-- The GUI helpers have no WinForms dependency and are tested here on every platform. -->
+  <ItemGroup>
+    <Compile Include="..\..\src\LzFilm.App\UiLogic.cs" Link="App\UiLogic.cs" />
+  </ItemGroup>
+
+  <!-- On Windows liblzma.dll comes from native\ (see tools\build-liblzma.ps1). -->
+  <ItemGroup Condition="Exists('..\..\native\liblzma.dll')">
+    <None Include="..\..\native\liblzma.dll" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>

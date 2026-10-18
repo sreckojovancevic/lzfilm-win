@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <IsTrimmable Condition="'$(OS)' == 'Windows_NT'">true</IsTrimmable>
+    <RootNamespace>LzFilm.Core</RootNamespace>
+    <AssemblyName>LzFilm.Core</AssemblyName>
+    <Version>0.5.0</Version>
+    <Authors>Srećko Jovančević</Authors>
+    <Description>LzFilm engine: chain of disk-image versions over LZMA (liblzma), volumes, self-extracting archives.</Description>
+  </PropertyGroup>
+
+</Project>

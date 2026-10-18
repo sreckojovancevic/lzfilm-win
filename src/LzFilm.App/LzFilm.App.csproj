@@ -1,0 +1,53 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    LzFilm desktop application (WinForms). The archiving engine is LzFilm.Core (a DLL, called directly —
+    no command-line tool is started). Published as a self-contained .NET application:
+      dotnet publish src\LzFilm.App -c Release -r win-x64 -o artifacts\app
+    The self-extractor stub (artifacts\sfx\LzFilm.Sfx.exe) is embedded when it exists, so publish the
+    stub first (build.ps1 does both in the right order).
+  -->
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>LzFilm</AssemblyName>
+    <RootNamespace>LzFilm.App</RootNamespace>
+    <Version>0.5.0</Version>
+    <Authors>Srećko Jovančević</Authors>
+    <Product>LzFilm</Product>
+    <Description>Archiver for files and folders and for successive versions of large disk images.</Description>
+    <Copyright>Copyright © 2026 Srećko Jovančević. MIT License.</Copyright>
+    <ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>lzfilm.ico</ApplicationIcon>
+    <ServerGarbageCollection>false</ServerGarbageCollection>
+    <ConcurrentGarbageCollection>true</ConcurrentGarbageCollection>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(RuntimeIdentifier)' != ''">
+    <SelfContained>true</SelfContained>
+    <!-- One LzFilm.exe; the .NET runtime and liblzma.dll are bundled inside it. -->
+    <PublishSingleFile>true</PublishSingleFile>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
+    <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+    <!-- WinForms is not trim-safe. -->
+    <PublishTrimmed>false</PublishTrimmed>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LzFilm.Core\LzFilm.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup Condition="Exists('..\..\native\liblzma.dll')">
+    <None Include="..\..\native\liblzma.dll" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup Condition="Exists('..\..\artifacts\sfx\LzFilm.Sfx.exe')">
+    <EmbeddedResource Include="..\..\artifacts\sfx\LzFilm.Sfx.exe" LogicalName="LzFilm.SfxStub.exe" />
+  </ItemGroup>
+
+</Project>
